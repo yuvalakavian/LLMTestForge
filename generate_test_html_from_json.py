@@ -240,14 +240,14 @@ def generate_html(data):
     
     return html_content
 
-with open("response.json", "r", encoding="utf-8") as json_file:
+with open("output/response.json", "r", encoding="utf-8") as json_file:
     data = json.load(json_file)
 
 # Generate the HTML
 html_output = generate_html(data)
 
 # Save the output to a file
-with open('exam.html', 'w', encoding='utf-8') as f:
+with open('output/exam.html', 'w', encoding='utf-8') as f:
     f.write(html_output)
 
 print("HTML file generated successfully: exam.html")

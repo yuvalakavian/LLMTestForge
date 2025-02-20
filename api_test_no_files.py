@@ -10,7 +10,7 @@ def read_api_key(file_path="api_key.txt"):
         return f.read().strip()
 
 
-def compress_pdf_to_variable(input_pdf_path):
+def compress_pdf_to_text(input_pdf_path):
     # Open the input PDF
     doc = fitz.open(input_pdf_path)
     full_text = ""
@@ -31,7 +31,10 @@ def compress_pdf_to_variable(input_pdf_path):
 
     return full_text
 
-def generate_content(generate_type,source_path, initial_prompt, response_structure)-> int:
+
+def generate_content(
+    generate_type, source_path, initial_prompt, response_structure, text_input
+) -> int:
     # Step 1: Read API key from file
     api_key = read_api_key()
 
@@ -54,11 +57,6 @@ def generate_content(generate_type,source_path, initial_prompt, response_structu
 
     print(f"Thread created: {thread_id}")
 
-    # Example usage
-    input_pdf_path = source_path
-    compressed_pdf = compress_pdf_to_variable(input_pdf_path)
-
-    text_input = compressed_pdf
     content = f"{initial_prompt} The {generate_type}: {text_input} return in JSON format acording to the format randomly: {response_structure}"
     # Step 5: Send a Message with Text Input
     message = openai_client.beta.threads.messages.create(
@@ -118,66 +116,88 @@ def generate_content(generate_type,source_path, initial_prompt, response_structu
     # Parse the cleaned text as a JSON string
     parsed_json = json.loads(cleaned_text)
 
-    with open("response.json", "w", encoding="utf-8") as json_file:
+    with open("output/response.json", "w", encoding="utf-8") as json_file:
         json.dump(parsed_json, json_file, indent=4, ensure_ascii=False)
 
     print("Response saved to response.json")
-    
+
     return 0
+
 
 def get_prompt(prompt_type, params):
     if prompt_type == "test":
-        num_of_american = params['num_of_american']
-        num_of_open = params['num_of_open']
+        num_of_american = params["num_of_american"]
+        num_of_open = params["num_of_open"]
         custom_prompt = "hard american questions"
         test_prompt = f"""
         Create a test for me based on the material in the files,
         which will contain {num_of_american} American questions and {num_of_open} open-ended ones.
         take this notes in consideration: {custom_prompt}
         """
-        
+
         return test_prompt
     elif prompt_type == "summary":
-        custom_prompt = ""
+        custom_prompt = "make it detailed about fragments"
         summary_prompt = f"""
         Create a summary for me based on the material in the files.
         take this notes in consideration: {custom_prompt}
         """
-        
+
         return summary_prompt
-        
+
 
 if __name__ == "__main__":
     generate_type = "summary"
-    if generate_type == "test":       
-        params={
-            'num_of_american': 8,
-            'num_of_open': 3,
+
+    if generate_type == "test":
+        params = {
+            "num_of_american": 8,
+            "num_of_open": 3,
         }
         initial_prompt = get_prompt(
             prompt_type="test",
             params=params,
         )
-        source_path = "1.pdf"
-        
+
         with open("test_json_structure.json", "r", encoding="utf-8") as json_file:
             response_structure = json.load(json_file)
+
+        total_input = ""
+        for i in range(1, 4):
+            source_path = f"input/test/{i}.pdf"
+            compressed_pdf = compress_pdf_to_text(source_path)
+            total_input += compressed_pdf
+
+        result = generate_content(
+            generate_type=generate_type,
+            source_path=source_path,
+            initial_prompt=initial_prompt,
+            response_structure=response_structure,
+            text_input=total_input,
+        )
+
     elif generate_type == "summary":
-        params={
-        }
+        params = {}
         initial_prompt = get_prompt(
             prompt_type=generate_type,
             params=params,
         )
-        source_path = "summary1.pdf"
-        
+
         with open("summary_json_structure.json", "r", encoding="utf-8") as json_file:
             response_structure = json.load(json_file)
-            
-    result = generate_content(
-        generate_type=generate_type,
-        source_path=source_path,
-        initial_prompt=initial_prompt,
-        response_structure=response_structure,
-    )
+
+        total_input = ""
+        for i in range(1, 4):
+            source_path = f"input/summary/{i}.pdf"
+            compressed_pdf = compress_pdf_to_text(source_path)
+            total_input += compressed_pdf
+
+        result = generate_content(
+            generate_type=generate_type,
+            source_path=source_path,
+            initial_prompt=initial_prompt,
+            response_structure=response_structure,
+            text_input=total_input,
+        )
+
     print("exit code: ", result)

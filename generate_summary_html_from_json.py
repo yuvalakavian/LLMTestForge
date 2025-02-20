@@ -60,7 +60,7 @@ def format_value(value):
     else:
         return str(value)
 
-def json_to_html(json_data, output_file="output.html"):
+def json_to_html(json_data, output_file="output/summary.html"):
     if not isinstance(json_data, dict):
         raise ValueError("Input data must be a dictionary")
     
@@ -140,7 +140,7 @@ def json_to_html(json_data, output_file="output.html"):
     print(f"HTML file '{output_file}' generated successfully.")
 
 if __name__ == "__main__":
-    with open("response.json", "r", encoding="utf-8") as json_file:
+    with open("output/response.json", "r", encoding="utf-8") as json_file:
         data = json.load(json_file)
 
     json_to_html(data)
