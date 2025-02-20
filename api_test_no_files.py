@@ -1,9 +1,10 @@
+import argparse
 import openai
 import json
 import fitz  # PyMuPDF
 import io
 import time
-
+import sys
 
 def read_api_key(file_path="api_key.txt"):
     with open(file_path, "r") as f:
@@ -107,8 +108,6 @@ def generate_content(
         exit(1)
 
     # Step 9: Save Response to JSON File
-    json_output = response_text
-
     cleaned_text = (
         response_text.replace("```json\n", "").replace("\n```", "").replace("\n", "")
     )
@@ -128,7 +127,7 @@ def get_prompt(prompt_type, params):
     if prompt_type == "test":
         num_of_american = params["num_of_american"]
         num_of_open = params["num_of_open"]
-        custom_prompt = "hard american questions"
+        custom_prompt = ""
         test_prompt = f"""
         Create a test for me based on the material in the files,
         which will contain {num_of_american} American questions and {num_of_open} open-ended ones.
@@ -137,7 +136,7 @@ def get_prompt(prompt_type, params):
 
         return test_prompt
     elif prompt_type == "summary":
-        custom_prompt = "make it detailed about fragments"
+        custom_prompt = "make it in hebrew"
         summary_prompt = f"""
         Create a summary for me based on the material in the files.
         take this notes in consideration: {custom_prompt}
@@ -146,8 +145,20 @@ def get_prompt(prompt_type, params):
         return summary_prompt
 
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Generate test or summary from PDFs.")
+    parser.add_argument(
+        "--generate-type", "-g",
+        choices=["test", "summary"],
+        required=True,
+        help="Specify whether to generate a 'test' or a 'summary'."
+    )
+    return parser.parse_args()
+
 if __name__ == "__main__":
-    generate_type = "summary"
+    args = parse_arguments()
+    generate_type = args.generate_type
+    print(generate_type)
 
     if generate_type == "test":
         params = {
