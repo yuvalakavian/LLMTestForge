@@ -1,106 +1,5 @@
 import json
-
-# Your JSON data
-data = {
-    "exam": {
-        "multiple_choice": [
-            {
-                "question": "מהי מטרת שיטת Cross-Validation?",
-                "options": [
-                    "א. להערכת ביצועי אלגוריתם למידה",
-                    "ב. מניעת בעיית underflow ב-Naïve Bayes",
-                    "ג. יצירת עץ החלטה עם כמה שיותר פיצולים",
-                    "ד. אף תשובה אינה נכונה"
-                ],
-                "answer": "א"
-            },
-            {
-                "question": "מהו חסרון של אלגוריתם KNN?",
-                "options": [
-                    "א. אינו מחשב מודל למידה בשלב האימון",
-                    "ב. זמן הסיווג ארוך",
-                    "ג. שניהם נכונים",
-                    "ד. אינו ניתן ליישום"
-                ],
-                "answer": "ג"
-            },
-            {
-                "question": "מהי מטרתו של אלגוריתם SVM?",
-                "options": [
-                    "א. למצוא את המרווח המקסימלי בין הקבוצות",
-                    "ב. למנוע בעיית overfitting",
-                    "ג. לבצע ניתוח נומינלי",
-                    "ד. לזהות קצוות של גרפים"
-                ],
-                "answer": "א"
-            },
-            {
-                "question": "איזה פרמטר משפיע על ביצועי אלגוריתם KNN?",
-                "options": [
-                    "א. מספר השכנים K",
-                    "ב. מרחק נורמלי",
-                    "ג. שניהם נכונים",
-                    "ד. אף תשובה אינה נכונה"
-                ],
-                "answer": "ג"
-            },
-            {
-                "question": "כיצד ניתן לזהות בעיית overfitting?",
-                "options": [
-                    "א. כאשר המודל משיג ביצועים טובים באימון ונמוכים במבחן",
-                    "ב. כאשר המודל מסווג נתונים אקראיים בהצלחה",
-                    "ג. כאשר האלגוריתם נבחר בצורה לא נכונה",
-                    "ד. כאשר המשתנים התלויים אינם בקורלציה עם הקלט"
-                ],
-                "answer": "א"
-            },
-            {
-                "question": "מה היתרון של Naïve Bayes?",
-                "options": [
-                    "א. פשטות ומהירות",
-                    "ב. דורש דאטה מסומן רב",
-                    "ג. רגישות גבוהה לרעש",
-                    "ד. אינו ניתן לשימוש בדאטה חסר"
-                ],
-                "answer": "א"
-            },
-            {
-                "question": "מה היתרון של שימוש ב- Cross-Validation?",
-                "options": [
-                    "א. משפר ביצועים על ידי שימוש בכל הדאטה לאימון ובדיקה",
-                    "ב. מצמצם את הצורך בדאטה מסומן",
-                    "ג. מגדיל את הדיוק של המודל מבלי לשנות היפרפרמטרים",
-                    "ד. לא משפיע על ביצועי המודל"
-                ],
-                "answer": "א"
-            },
-            {
-                "question": "מהו תפקיד פונקציית האקטיבציה ברשתות נוירונים?",
-                "options": [
-                    "א. הוספת אי-לינאריות למודל",
-                    "ב. שיפור המהירות של הלמידה",
-                    "ג. הפחתת השגיאה של המודל",
-                    "ד. סינון נתונים לא חשובים"
-                ],
-                "answer": "א"
-            }
-        ],
-        "open_questions": [
-            {
-                "question": "הסבר את ההבדל בין SVM לאלגוריתם פרספטרון.",
-                "answer": "SVM משפר את ההכללה של המודל על ידי בחירת hyperplane עם המרווח המקסימלי, בעוד שפרספטרון עובד עם עדכון פשוט של משקולות."
-            },
-            {
-                "question": "מהו היתרון של שימוש ב- Cross-Validation?",
-                "answer": "מאפשר הערכה טובה יותר של הביצועים של מודל על ידי חלוקה של הדאטה לכמה קבוצות ולמנוע overfitting."
-            },
-            {
-                "question": "כיצד ניתן לזהות בעיית overfitting?",
-                "answer": "כאשר המודל משיג ביצועים גבוהים על קבוצת האימון אך ביצועים נמוכים על קבוצת המבחן."
-            }
-        ]
-    }
-}
+import random
 
 # Function to generate HTML
 def generate_html(data):
@@ -111,71 +10,60 @@ def generate_html(data):
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>מבחן</title>
+        <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&display=swap" rel="stylesheet">
         <style>
             body {
-                font-family: 'Arial', sans-serif;
+                font-family: 'Assistant', sans-serif;
                 direction: rtl;
                 margin: 0;
                 padding: 0;
-                background-color: #f4f4f4;
+                background: linear-gradient(135deg, #89f7fe, #66a6ff);
                 color: #333;
+            }
+            .container {
+                max-width: 800px;
+                margin: 40px auto;
+                background-color: #fff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             }
             h1, h2 {
                 text-align: center;
                 color: #2c3e50;
             }
-            .container {
-                width: 80%;
-                margin: 0 auto;
+            .question, .open-question {
+                margin-bottom: 25px;
                 padding: 20px;
-                background-color: #fff;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                background-color: #f9f9f9;
+                border-radius: 8px;
+                border-left: 5px solid #2980b9;
             }
-            .question {
-                margin-bottom: 20px;
-                padding: 10px;
-                background-color: #ecf0f1;
-                border-radius: 5px;
-            }
-            .question p {
+            .question p, .open-question p {
                 font-size: 18px;
-                margin: 5px 0;
-            }
-            .options {
-                margin-left: 20px;
-                font-size: 16px;
+                margin: 10px 0;
             }
             .options p {
-                margin-bottom: 5px;
+                margin: 8px 0;
+                padding: 8px;
+                background-color: #ecf0f1;
+                border-radius: 4px;
             }
-            .answer {
+            .answer, .answer-text {
                 font-weight: bold;
                 color: #27ae60;
-                display: none;
-            }
-            .open-question {
-                padding: 15px;
-                background-color: #f8f9fa;
-                border-radius: 5px;
-                margin-bottom: 20px;
-            }
-            .open-question p {
-                font-size: 18px;
-            }
-            .answer-text {
-                font-size: 16px;
-                color: #34495e;
-                margin-top: 10px;
+                margin-top: 15px;
                 display: none;
             }
             .show-answer-btn {
-                margin-top: 10px;
-                padding: 5px 10px;
+                margin-top: 15px;
+                padding: 8px 15px;
                 background-color: #2980b9;
-                color: white;
+                color: #fff;
                 border: none;
-                border-radius: 3px;
+                border-radius: 4px;
                 cursor: pointer;
+                transition: background-color 0.3s ease;
             }
             .show-answer-btn:hover {
                 background-color: #3498db;
@@ -184,30 +72,26 @@ def generate_html(data):
         <script>
             function toggleAnswer(id) {
                 var answer = document.getElementById(id);
-                if (answer.style.display === "none") {
-                    answer.style.display = "block";
-                } else {
-                    answer.style.display = "none";
-                }
+                answer.style.display = (answer.style.display === "none" || answer.style.display === "") ? "block" : "none";
             }
         </script>
     </head>
     <body>
-
-    <div class="container">
-        <h1>מבחן</h1>
-
-        <h2>שאלות רב-ברירה</h2>
+        <div class="container">
+            <h1>מבחן</h1>
+            <h2>שאלות רב-ברירה</h2>
     """
     
-    # Add multiple choice questions
+    # Add multiple choice questions with shuffled options
     for index, question in enumerate(data['exam']['multiple_choice']):
+        options = question['options'].copy()
+        random.shuffle(options)
         html_content += f"""
         <div class="question">
             <p>{question['question']}</p>
             <div class="options">
         """
-        for option in question['options']:
+        for option in options:
             html_content += f"<p>{option}</p>"
         
         html_content += f"""
@@ -216,11 +100,11 @@ def generate_html(data):
             <p id="answer{index}" class="answer">תשובה נכונה: {question['answer']}</p>
         </div>
         """
-
+    
     html_content += """
-        <h2>שאלות פתוחות</h2>
+            <h2>שאלות פתוחות</h2>
     """
-
+    
     # Add open-ended questions
     for index, question in enumerate(data['exam']['open_questions']):
         html_content += f"""
@@ -230,10 +114,9 @@ def generate_html(data):
             <p id="open-answer{index}" class="answer-text">{question['answer']}</p>
         </div>
         """
-
+    
     html_content += """
-    </div>
-
+        </div>
     </body>
     </html>
     """

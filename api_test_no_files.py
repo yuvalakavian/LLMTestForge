@@ -44,8 +44,8 @@ def generate_content(
 
     # Step 2: Create an Assistant
     assistant = openai_client.beta.assistants.create(
-        name="Test Generator",
-        instructions="You are an assistant that generates tests as text input in JSON format.",
+        name="Test/Summary Generator",
+        instructions="You are an assistant that generates tests and summary as text input in JSON format.",
         model="o3-mini",
     )
     assistant_id = assistant.id
@@ -127,7 +127,7 @@ def get_prompt(prompt_type, params):
     if prompt_type == "test":
         num_of_american = params["num_of_american"]
         num_of_open = params["num_of_open"]
-        custom_prompt = "make sure that the answers are correct and in hebrew"
+        custom_prompt = "make sure that the answers are correct and in hebrew. make the questions hard."
         test_prompt = f"""
         Create a new and diffrent test for me inspired by on the material in the files,
         which will contain {num_of_american} American questions and {num_of_open} open-ended ones.
@@ -136,9 +136,11 @@ def get_prompt(prompt_type, params):
 
         return test_prompt
     elif prompt_type == "summary":
-        custom_prompt = "make it in hebrew and long as hell"
+        custom_prompt = "make it in hebrew"
         summary_prompt = f"""
         Create a summary for me based on the material in the files.
+        make sure the summary is rich in content and well orginzed.
+        and replace the subjects from the json with actual titles.
         take this notes in consideration: {custom_prompt}
         """
 

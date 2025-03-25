@@ -5,71 +5,60 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>מבחן</title>
+        <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&display=swap" rel="stylesheet">
         <style>
             body {
-                font-family: 'Arial', sans-serif;
+                font-family: 'Assistant', sans-serif;
                 direction: rtl;
                 margin: 0;
                 padding: 0;
-                background-color: #f4f4f4;
+                background: linear-gradient(135deg, #89f7fe, #66a6ff);
                 color: #333;
+            }
+            .container {
+                max-width: 800px;
+                margin: 40px auto;
+                background-color: #fff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             }
             h1, h2 {
                 text-align: center;
                 color: #2c3e50;
             }
-            .container {
-                width: 80%;
-                margin: 0 auto;
+            .question, .open-question {
+                margin-bottom: 25px;
                 padding: 20px;
-                background-color: #fff;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                background-color: #f9f9f9;
+                border-radius: 8px;
+                border-left: 5px solid #2980b9;
             }
-            .question {
-                margin-bottom: 20px;
-                padding: 10px;
-                background-color: #ecf0f1;
-                border-radius: 5px;
-            }
-            .question p {
+            .question p, .open-question p {
                 font-size: 18px;
-                margin: 5px 0;
-            }
-            .options {
-                margin-left: 20px;
-                font-size: 16px;
+                margin: 10px 0;
             }
             .options p {
-                margin-bottom: 5px;
+                margin: 8px 0;
+                padding: 8px;
+                background-color: #ecf0f1;
+                border-radius: 4px;
             }
-            .answer {
+            .answer, .answer-text {
                 font-weight: bold;
                 color: #27ae60;
-                display: none;
-            }
-            .open-question {
-                padding: 15px;
-                background-color: #f8f9fa;
-                border-radius: 5px;
-                margin-bottom: 20px;
-            }
-            .open-question p {
-                font-size: 18px;
-            }
-            .answer-text {
-                font-size: 16px;
-                color: #34495e;
-                margin-top: 10px;
+                margin-top: 15px;
                 display: none;
             }
             .show-answer-btn {
-                margin-top: 10px;
-                padding: 5px 10px;
+                margin-top: 15px;
+                padding: 8px 15px;
                 background-color: #2980b9;
-                color: white;
+                color: #fff;
                 border: none;
-                border-radius: 3px;
+                border-radius: 4px;
                 cursor: pointer;
+                transition: background-color 0.3s ease;
             }
             .show-answer-btn:hover {
                 background-color: #3498db;
@@ -78,115 +67,117 @@
         <script>
             function toggleAnswer(id) {
                 var answer = document.getElementById(id);
-                if (answer.style.display === "none") {
-                    answer.style.display = "block";
-                } else {
-                    answer.style.display = "none";
-                }
+                answer.style.display = (answer.style.display === "none" || answer.style.display === "") ? "block" : "none";
             }
         </script>
     </head>
     <body>
-
-    <div class="container">
-        <h1>מבחן</h1>
-
-        <h2>שאלות רב-ברירה</h2>
+        <div class="container">
+            <h1>מבחן</h1>
+            <h2>שאלות רב-ברירה</h2>
     
         <div class="question">
-            <p>מהי תכונה מרכזית של טרנספורמציה לינארית?</p>
+            <p>בהינתן פונקציה f: {1, 2, ..., 7} → {1, 2, 3, 4}, כמה פונקציות על (surjective) קיימות?</p>
             <div class="options">
-        <p>א. שומרת את המכפלה הפנימית</p><p>ב. שומרת את סך המשקולות</p><p>ג. מקיימת את חוקי החיבור והכפל בסקלר</p><p>ד. מפיקה ערכים מקריים</p>
+        <p>8400</p><p>7200</p><p>16384</p><p>7984</p>
             </div>
             <button class="show-answer-btn" onclick="toggleAnswer('answer0')">הצג תשובה</button>
-            <p id="answer0" class="answer">תשובה נכונה: ג. מקיימת את חוקי החיבור והכפל בסקלר</p>
+            <p id="answer0" class="answer">תשובה נכונה: 8400</p>
         </div>
         
         <div class="question">
-            <p>מהו מאפיין עיקרי של מטריצת סיבוב במישור?</p>
+            <p>עבור קבוצה בעלת k חברי כנסת, אם נבחר קודם ועדה מכל גודל מ-1 ועד k, ולאחר מכן נבחר חבר אחד מהועדה להיות "מלך הח"כים", מהו מספר הדרכים לביצוע התהליך?</p>
             <div class="options">
-        <p>א. האגפים שלה זהים</p><p>ב. הדטרמיננטה שווה ל-0</p><p>ג. הדטרמיננטה שווה ל-1</p><p>ד. שורות המטריצה תלויות לינארית</p>
+        <p>2^k</p><p>C(k,2) · 2^(k-2)</p><p>k · 2^(k-1)</p><p>k!</p>
             </div>
             <button class="show-answer-btn" onclick="toggleAnswer('answer1')">הצג תשובה</button>
-            <p id="answer1" class="answer">תשובה נכונה: ג. הדטרמיננטה שווה ל-1</p>
+            <p id="answer1" class="answer">תשובה נכונה: k · 2^(k-1)</p>
         </div>
         
         <div class="question">
-            <p>מהי משמעותו של ערך עצמי (eigenvalue) עבור מטריצה או טרנספורמציה לינארית?</p>
+            <p>קבעו את מספר המספרים בעלות 4 ספרות שאינם מכילים את הספרה 4, בהנחה שהספרה הראשונה אינה אפס.</p>
             <div class="options">
-        <p>א. ערך המופיע בקוד הפנימי של המטריצה</p><p>ב. סקלר שמקיים את המשוואה T(v) = λ·v עבור וקטור לא אפס</p><p>ג. ערך המתאר את השיפוע במרחב הנתונים</p><p>ד. אפסון המטריצות</p>
+        <p>5838</p><p>5832</p><p>5830</p><p>5600</p>
             </div>
             <button class="show-answer-btn" onclick="toggleAnswer('answer2')">הצג תשובה</button>
-            <p id="answer2" class="answer">תשובה נכונה: ב. סקלר שמקיים את המשוואה T(v) = λ·v עבור וקטור לא אפס</p>
+            <p id="answer2" class="answer">תשובה נכונה: 5832</p>
         </div>
         
         <div class="question">
-            <p>איזו מהבאות מהווה תכונה של מטריצה הפיכה?</p>
+            <p>נתון גרף מסלול עם n קודקודים. כמה צלעות יש בגרף המשלים שלו?</p>
             <div class="options">
-        <p>א. יש לה דטרמיננטה שונה מ-0</p><p>ב. כל הערכים העצמיים שלה שווים לאפס</p><p>ג. היא בהכרח סימטרית</p><p>ד. היא אינה קיימת</p>
+        <p>(n-1)(n-2)/2</p><p>(n-2)(n-3)/2</p><p>n(n-1)/2</p><p>n-1</p>
             </div>
             <button class="show-answer-btn" onclick="toggleAnswer('answer3')">הצג תשובה</button>
-            <p id="answer3" class="answer">תשובה נכונה: א. יש לה דטרמיננטה שונה מ-0</p>
+            <p id="answer3" class="answer">תשובה נכונה: (n-1)(n-2)/2</p>
         </div>
         
         <div class="question">
-            <p>מהו Kernel (גרעין) של טרנספורמציה לינארית?</p>
+            <p>באופן כללי, כמה פונקציות קיימות מ-A ל-B כאשר |A| = m ו-|B| = n?</p>
             <div class="options">
-        <p>א. תת-מרחב שבו התמונות מתפלגות באופן אחיד</p><p>ב. קבוצת כל הווקטורים במרחב היעד</p><p>ג. קבוצת כל הווקטורים אשר מתמירים לאפס תחת הטרנספורמציה</p><p>ד. קבוצת כל הווקטורים שהאורך שלהם שווה ל-1</p>
+        <p>m^n - n</p><p>m^n</p><p>n · m</p><p>n^m</p>
             </div>
             <button class="show-answer-btn" onclick="toggleAnswer('answer4')">הצג תשובה</button>
-            <p id="answer4" class="answer">תשובה נכונה: ג. קבוצת כל הווקטורים אשר מתמירים לאפס תחת הטרנספורמציה</p>
+            <p id="answer4" class="answer">תשובה נכונה: n^m</p>
         </div>
         
         <div class="question">
-            <p>מהי חשיבותו של בסיס במרחב וקטורי?</p>
+            <p>נתונה הסדרה ההגדרית: f(n) = 2·2^n - 2·n·2^n + 18·3^n. מהו f(2)?</p>
             <div class="options">
-        <p>א. הוא מאפשר לייצג כל וקטור כמכפלה לינארית ייחודית של רכיבים</p><p>ב. הוא קובע את מימדי המרחב בלבד</p><p>ג. הוא תמיד קבוע ואינו משתנה</p><p>ד. הוא מגדיר את השדה עליו מוגדר המרחב</p>
+        <p>162</p><p>156</p><p>150</p><p>154</p>
             </div>
             <button class="show-answer-btn" onclick="toggleAnswer('answer5')">הצג תשובה</button>
-            <p id="answer5" class="answer">תשובה נכונה: א. הוא מאפשר לייצג כל וקטור כמכפלה לינארית ייחודית של רכיבים</p>
+            <p id="answer5" class="answer">תשובה נכונה: 154</p>
         </div>
         
         <div class="question">
-            <p>מהו המשפט הנכון לגבי דטרמיננטה של מכפלת שתי מטריצות?</p>
+            <p>בהינתן פונקציות f: A → B ו-g: B → A, כאשר f היא פונקציה על (surjective) ו-g היא חד-חד-ערכית, איזו מהאפשרויות הבאות נכונה לגבי הקבוצות A ו-B?</p>
             <div class="options">
-        <p>א. det(AB) = det(A) + det(B)</p><p>ב. det(AB) = det(A) - det(B)</p><p>ג. det(AB) = det(A) * det(B)</p><p>ד. det(AB) = det(A) / det(B)</p>
+        <p>|A| > |B|</p><p>|A| ≤ |B|</p><p>|A| < |B|</p><p>|A| = |B|</p>
             </div>
             <button class="show-answer-btn" onclick="toggleAnswer('answer6')">הצג תשובה</button>
-            <p id="answer6" class="answer">תשובה נכונה: ג. det(AB) = det(A) * det(B)</p>
+            <p id="answer6" class="answer">תשובה נכונה: |A| = |B|</p>
         </div>
         
         <div class="question">
-            <p>מהו הקשר בין טרנספורמציה לינארית לאי-תלות לינארית של קבוצת וקטורים?</p>
+            <p>נתונה פונקציה מ-A ל-B כאשר |A| = 7 ו-|B| = 4. אם סה"כ מספר הפונקציות הוא 4^7, כמה פונקציות אינן על?</p>
             <div class="options">
-        <p>א. אם התמונה של קבוצה בלתי תלויה, אז הקבוצה המקורית חייבת להיות תלויה</p><p>ב. אם הקבוצה המקורית בלתי תלויה, אז גם תמונתה בהכרח בלתי תלויה</p><p>ג. אם התמונה של קבוצה בלתי תלויה, אז הטרנספורמציה היא בהכרח איזומורפיזם</p><p>ד. גם אם הווקטורים המקוריים בלתי תלויים, תחת טרנספורמציה שאינה חד-חד ערכית, תמונתם עלולה להיות תלויה</p>
+        <p>16384</p><p>7620</p><p>7984</p><p>8400</p>
             </div>
             <button class="show-answer-btn" onclick="toggleAnswer('answer7')">הצג תשובה</button>
-            <p id="answer7" class="answer">תשובה נכונה: ד. גם אם הווקטורים המקוריים בלתי תלויים, תחת טרנספורמציה שאינה חד-חד ערכית, תמונתם עלולה להיות תלויה</p>
+            <p id="answer7" class="answer">תשובה נכונה: 7984</p>
         </div>
         
-        <h2>שאלות פתוחות</h2>
+            <h2>שאלות פתוחות</h2>
     
         <div class="open-question">
-            <p>הסבר את חשיבותו של מושג הערך העצמי (eigenvalue) במערכות דינמיות.</p>
+            <p>הוכיחו, בעזרת אינדוקציה, כי עבור כל n טבעי וכל x > -1 מתקיים: (1+x)^n ≥ 1 + n·x.</p>
             <button class="show-answer-btn" onclick="toggleAnswer('open-answer0')">הצג תשובה</button>
-            <p id="open-answer0" class="answer-text">ערכים עצמיים מאפשרים להבין את התנהגות המערכת עם הזמן, לזהות קצבי גדילה או דעיכה ולפשט את הניתוח על ידי פירוק המרחב לתת-מרחבים אינרטיים.</p>
+            <p id="open-answer0" class="answer-text">פתרון: בסיס האינדוקציה: עבור n=1 מתקיים (1+x)^1 = 1+x ולכן, ברור ש-1+x ≥ 1+x. הנחת האינדוקציה: נניח כי עבור n=k מתקיים (1+x)^k ≥ 1+k·x. צעד האינדוקציה: נבצע את המעבר מ-k ל-(k+1). נחשב:
+(1+x)^(k+1) = (1+x) · (1+x)^k ≥ (1+x) · (1+k·x) = 1 + k·x + x + k·x^2 = 1 + (k+1)x + k·x^2.
+כעת, מאחר ו-x^2 ≥ 0 לכל x > -1, מתקיים 1 + (k+1)x + k·x^2 ≥ 1 + (k+1)x. לכן, לפי עקרון האינדוקציה (1+x)^(k+1) ≥ 1 + (k+1)x. סך הכל הוכחנו כי הטענה נכונה לכל n טבעי.</p>
         </div>
         
         <div class="open-question">
-            <p>מהי התרומה של מציאת בסיס ל-Kernel (גרעין) בפתרון מערכות משוואות ליניאריות?</p>
+            <p>נתונה פונקציה f: {1,2,...,7} → {1,2,3,4}. הוכיחו, בעזרת עקרון ההכלה וההדחה, כי מספר הפונקציות עליה (surjective) הוא 8400.</p>
             <button class="show-answer-btn" onclick="toggleAnswer('open-answer1')">הצג תשובה</button>
-            <p id="open-answer1" class="answer-text">מציאת בסיס ל-Kernel מאפשרת לזהות את מספר המשתנים החופשיים במערכת, לתאר את קבוצת הפתרונות ולהבין את מידת התלות הליניארית בין המשתנים.</p>
+            <p id="open-answer1" class="answer-text">פתרון: ראשית, נספור את סך כל הפונקציות מ- A ל- B, כאשר |A| = 7 ו-|B| = 4, והוא 4^7. כדי לספור את מספר הפונקציות מעל, נשתמש בעקרון ההכלה וההדחה:
+מספר הפונקציות העל = 4^7 - C(4,1)*3^7 + C(4,2)*2^7 - C(4,3)*1^7.
+חישובים: 4^7 = 16384, 3^7 = 2187, 2^7 = 128, 1^7 = 1, כאשר C(4,1)=4, C(4,2)=6, C(4,3)=4.
+לכן: 16384 - 4·2187 + 6·128 - 4 = 16384 - 8748 + 768 - 4 = 8400.
+כך הוכחנו כי מספר הפונקציות העל הוא 8400.</p>
         </div>
         
         <div class="open-question">
-            <p>באיזה אופן תורמות טרנספורמציות לינאריות לטכניקות עיבוד נתונים והפחתת ממדים, כגון PCA?</p>
+            <p>נתונות פונקציות f: A → B ו-g: B → A. הוכיחו, באמצעות שיטת "קש"ב" (הוכחת ביאקציה), כי |A| = |B|, כלומר קיימת התאמה דו-חד-נה (bijection) בין הקבוצות A ו-B.</p>
             <button class="show-answer-btn" onclick="toggleAnswer('open-answer2')">הצג תשובה</button>
-            <p id="open-answer2" class="answer-text">טרנספורמציות לינאריות מאפשרות לזהות מתאם בין תכונות, לצמצם את המימדים של הנתונים ולשמור על המבנה הפנימי, מה שמשפר את יעילות העיבוד ומסייע בהבנת מבנה הנתונים.</p>
+            <p id="open-answer2" class="answer-text">פתרון: כדי להוכיח שקיימת התאמה דו-חד-תורנית בין A ל-B, עלינו להראות שקיימות פונקציות f: A → B ו-g: B → A כך ש: (1) f היא על (surjective) ו-(2) g היא חד-חד-ערכית (injective).
+נתבונן בניסוח הכללי של שיטת "קש"ב": אם ניתן להגדיר שתי פונקציות f ו-g, כך ש-f היא על ו-g היא חד-חד-ערכית, אז ניתן להחדיר את A לתוך B ולהסיק כי |A| ≤ |B|. במקביל, אם ניתן להגדיר פונקציה g' מ-B ל-A בעלת תכונה דומה, נראה שההפך גם מתקיים, ולכן |A| = |B|.
+למשל, אם ניתן להראות ש-f(x) = y וקיים g(y) = x לכל x ∈ A ו-y ∈ B, הרי שההרכבה g o f זהות על A וההרכבה f o g זהות על B. כלומר, מתקיימת התאמה דו-חד-ערכית בין A ל-B. בכך הראינו לאורך השאלה שאם ישנה פונקציה על מ-A ל-B ופונקציה חד-חד-ערכית מ-B ל-A, אז |A| = |B|.
+סיכום: הוכחנו כי קיומם של f ו-g עם התכונות המתוארות מוביל לקיום בשני הכיוונים של התאמה (bijection), ומכאן ניתן להסיק כי A ו-B בעלות אותו מסדר (cardinality).</p>
         </div>
         
-    </div>
-
+        </div>
     </body>
     </html>
     
