@@ -66,54 +66,57 @@ def json_to_html(json_data, output_file="output/summary.html"):
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>JSON to HTML</title>
+        <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&display=swap" rel="stylesheet">
         <style>
-            body { 
-                font-family: Arial, sans-serif; 
-                margin: 40px; 
-                background: linear-gradient(120deg, #3a3d40, #5c5e60); 
-                color: #eee; 
+            body {
+                font-family: 'Assistant', sans-serif;
                 direction: rtl;
+                margin: 0;
+                padding: 0;
+                background: linear-gradient(135deg, #89f7fe, #66a6ff);
+                color: #333;
                 text-align: right;
             }
-            h2 { 
-                color: #ffffff; 
-                background: #2c3e50; 
-                padding: 12px; 
-                border-radius: 5px; 
-                text-transform: uppercase; 
-                letter-spacing: 1px; 
+            .container {
+                max-width: 900px;
+                margin: 40px auto;
+                background-color: #fff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             }
-            p { 
-                font-size: 16px; 
-                line-height: 1.5; 
+            h2 {
+                text-align: center;
+                color: #2c3e50;
+                background-color: #f0f0f0;
+                padding: 12px;
+                border-radius: 5px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 20px;
             }
-            pre { 
-                background: #2d2d2d; 
-                color: #f8f8f8; 
-                padding: 12px; 
-                border-radius: 5px; 
-                overflow-x: auto; 
+            p {
+                font-size: 16px;
+                line-height: 1.6;
             }
-            ul { 
-                list-style-type: disc; 
+            pre {
+                background: #2d2d2d;
+                color: #f8f8f8;
+                padding: 12px;
+                border-radius: 5px;
+                overflow-x: auto;
+            }
+            ul {
+                list-style-type: disc;
                 padding-right: 20px;
-                text-align: right;
+                margin-bottom: 20px;
             }
-            li { 
-                background: #444; 
-                color: #ddd; 
-                margin: 5px 0; 
-                padding: 10px; 
-                border-radius: 5px; 
-                font-weight: bold; 
-            }
-            .container { 
-                max-width: 900px; 
-                margin: auto; 
-                background: #3b3b3b; 
-                padding: 20px; 
-                border-radius: 10px; 
-                box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3); 
+            li {
+                background: #ecf0f1;
+                color: #34495e;
+                margin: 5px 0;
+                padding: 10px;
+                border-radius: 5px;
             }
         </style>
     </head>

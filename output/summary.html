@@ -1,58 +1,80 @@
 
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="he" dir="rtl">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>JSON to HTML</title>
+        <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&display=swap" rel="stylesheet">
         <style>
-            body { 
-                font-family: Arial, sans-serif; 
-                margin: 40px; 
-                background: linear-gradient(120deg, #3a3d40, #5c5e60); 
-                color: #eee; 
+            body {
+                font-family: 'Assistant', sans-serif;
+                direction: rtl;
+                margin: 0;
+                padding: 0;
+                background: linear-gradient(135deg, #89f7fe, #66a6ff);
+                color: #333;
+                text-align: right;
             }
-            h2 { 
-                color: #ffffff; 
-                background: #2c3e50; 
-                padding: 12px; 
-                border-radius: 5px; 
-                text-transform: uppercase; 
-                letter-spacing: 1px; 
+            .container {
+                max-width: 900px;
+                margin: 40px auto;
+                background-color: #fff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             }
-            p { 
-                font-size: 16px; 
-                line-height: 1.5; 
+            h2 {
+                text-align: center;
+                color: #2c3e50;
+                background-color: #f0f0f0;
+                padding: 12px;
+                border-radius: 5px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 20px;
             }
-            pre { 
-                background: #2d2d2d; 
-                color: #f8f8f8; 
-                padding: 12px; 
-                border-radius: 5px; 
-                overflow-x: auto; 
+            p {
+                font-size: 16px;
+                line-height: 1.6;
             }
-            ul { 
-                list-style-type: disc; 
-                padding-left: 20px; 
+            pre {
+                background: #2d2d2d;
+                color: #f8f8f8;
+                padding: 12px;
+                border-radius: 5px;
+                overflow-x: auto;
             }
-            li { 
-                background: #444; 
-                color: #ddd; 
-                margin: 5px 0; 
-                padding: 10px; 
-                border-radius: 5px; 
-                font-weight: bold; 
+            ul {
+                list-style-type: disc;
+                padding-right: 20px;
+                margin-bottom: 20px;
             }
-            .container { 
-                max-width: 900px; 
-                margin: auto; 
-                background: #3b3b3b; 
-                padding: 20px; 
-                border-radius: 10px; 
-                box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3); 
+            li {
+                background: #ecf0f1;
+                color: #34495e;
+                margin: 5px 0;
+                padding: 10px;
+                border-radius: 5px;
             }
         </style>
     </head>
     <body>
         <div class="container">
-    <h2>מבוא</h2><p>בקורס זה נלמד על מושגים בסיסיים במערכות הפעלה והחשיבות שלהן בניהול וייעול המשאבים. המרצה הראשי הוא מנשה אליאב.</p><h2>מבנה מערכת מחשב</h2><ul><li>ניתן לחלק את מערכת המחשב למספר מרכיבים עיקריים: תקשורת והקצאת משאבים, תיאום בין תהליכים, וממשקי משתמש.</li><li>משתמשים יכולים להיות אנשים או מחשבים אחרים שמטרתם מוגדרת ע"י מערכת ההפעלה.</li><li>המערכת שולטת ומתאמת את השימוש בחומרה בין התהליכים השונים.</li></ul><h2>MS-Paint Application Example</h2><p>if (MS_Paint_is_running_in_Windows) { load_application(); manage_interrupts(); allocate_memory(); manage_IO_devices(); allocate_CPU(); handle_IPC_operations(); }</p><h2>פופולריות מערכות הפעלה</h2><ul><li>מערכות הפעלה פופולריות כוללות את Windows, Linux ו-MacOS.</li><li>ללא מערכת הפעלה, ניתן להריץ רק תכנית אחת בודדת ופותרת בעיות רבות.</li><li>מערכות פתוחות מצריכות יותר תכנון ומורכבות.</li></ul><h2>תהליכים וסנכרון</h2><ul><li><strong>הבעיה:</strong> במערכות הפעלה ראשונות היה ניתן להריץ תכנית אחת בלבד בכל זמן נתון. כיום זה השתנה.</li><li><strong>תהליכים אקטיביים:</strong> תהליכים הם תוכניות בהרצה אשר מנהלות זיכרון זמן אמת ומתמודדות עם תקשורת ואלגוריתמים מורכבים.</li><li><strong>מטרת מערכת ההפעלה:</strong> ניטור וזיהוי שגיאות, סינכרון בין תהליכים, וניהול זיכרון ומשאבים בצורה יעילה.</li></ul></div></body></html>
+    <h2>מבוא לקטלין והסביבה</h2><p>קטלין היא שפה מודרנית הרצה על JVM ומיועדת להחליף את ג’אווה במסגרות רבות. בסיכום זה נסקור את יסודות הקומפילציה של קטלין, את ההתקנה והסביבת הפיתוח (IntelliJ IDEA, Android Studio עם REPL), ואת היתרונות שעולים מניהול טיפוסים, מניעת NullPointerExceptions ושימוש באופרטורים יעילים כמו Elvis, ?. ו-!!. בנוסף, נתמקד בהבדלים בין משתנים mutable (var) וקבועים (val) והשימוש ב-const לקבועים בזמן קומפילציה.</p><h2>הכרזת משתנים וטיפול בערכי Null</h2><ul><li>שימוש ב-var להכרזה על משתנים שיכולים להשתנות ועל-val להכרזה על ערכים קבועים.</li><li>העדפה לשימוש ב-val כאשר אפשר, במטרה לשמור על קוד בטוח יותר.</li><li>הבדל בין טיפוס רגיל לטיפוס nullable – אם משתנה יכול לקבל ערך null יש להוסיפו את הסימן '?' בסוף הטיפוס.</li><li>אופרטור safe call (?.) אשר מאפשר קריאה בטוחה למתודות על משתנים nullable, ואופרטור !! שמכריז על ביטחון אך מסוכן במקרה של null.</li><li>אופרטור Elvis (?:) המקנה ערך ברירת מחדל במידה שהביטוי הראשוני מחזיר null.</li></ul><h2>דוגמאות קוד בקטלין</h2><p>fun main() {
+    // הדגמה של משתני val ו-var
+    var mutableValue = 7
+    val constantValue = 3.14
+
+    // ניהול null עם אופרטור ?.
+    val nullableString: String? = null
+    println(nullableString?.length ?: "אין אורך")
+
+    // שימוש ב-const לקבוע בזמן קומפילציה
+    const val WEBSITE_NAME = "Baeldung"
+    println("שם האתר: $WEBSITE_NAME")
+}
+
+// פונקציות בקצרה ובאינטראקציה עם המשתמש
+fun greet(name: String) = "שלום, $name!"
+fun sum(a: Int, b: Int): Int = a + b</p><h2>עקרונות מתקדמים ויישומי אנדרואיד</h2><ul><li><strong>מחזור חיים וניהול מצבים:</strong> קטלין מאפשרת ניהול יעיל של מחזור חיי אובייקטים, הן ברמת מחלקות והן בניהול מחזור חיי Fragments במערכת Android, כולל שימוש ב-init ובבנאי ראשי ומשני.</li><li><strong>שימוש ב-Extensions וב-Scope Functions:</strong> הוספת פונקציות רבות ללא שינוי במחלקות המקוריות דרך יכולת ההרחבות של קטלין, ובניית קוד קריא ונוח בעזרת let, run, with, apply ו-also.</li><li><strong>אינטגרציה עם אנדרואיד:</strong> יישום Fragments בצורה דינמית או בהגדרה סטטית ב-layout, ניהול ניווט עם Back Stack, ושימוש ב-ViewPager ו-Tabs ליצירת ממשקי משתמש מודרניים.</li></ul></div></body></html>
