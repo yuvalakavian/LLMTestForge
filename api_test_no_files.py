@@ -44,9 +44,9 @@ def generate_content(
 
     # Step 2: Create an Assistant
     assistant = openai_client.beta.assistants.create(
-        name="Text Summarizer",
-        instructions="You are an assistant that summarizes text input in JSON format.",
-        model="gpt-4o",
+        name="Test Generator",
+        instructions="You are an assistant that generates tests as text input in JSON format.",
+        model="o3-mini",
     )
     assistant_id = assistant.id
 
@@ -72,9 +72,6 @@ def generate_content(
     run = openai_client.beta.threads.runs.create(
         thread_id=thread_id,
         assistant_id=assistant_id,
-        temperature=0.8,  # Controls response randomness
-        top_p=1.0,  # No restriction on probability distribution
-        max_prompt_tokens=10000,  # Ensures enough tokens are available for context
     )
 
     print("Processing...")
@@ -130,16 +127,16 @@ def get_prompt(prompt_type, params):
     if prompt_type == "test":
         num_of_american = params["num_of_american"]
         num_of_open = params["num_of_open"]
-        custom_prompt = ""
+        custom_prompt = "make sure that the answers are correct and in hebrew"
         test_prompt = f"""
-        Create a test for me based on the material in the files,
+        Create a new and diffrent test for me inspired by on the material in the files,
         which will contain {num_of_american} American questions and {num_of_open} open-ended ones.
         take this notes in consideration: {custom_prompt}
         """
 
         return test_prompt
     elif prompt_type == "summary":
-        custom_prompt = "make it in hebrew"
+        custom_prompt = "make it in hebrew and long as hell"
         summary_prompt = f"""
         Create a summary for me based on the material in the files.
         take this notes in consideration: {custom_prompt}
