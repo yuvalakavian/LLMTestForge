@@ -24,13 +24,10 @@ def format_numbered_string(value):
     split the string and return an HTML fragment with a paragraph for any text
     before the list and a proper HTML list for the numbered items.
     """
-    # Split by pattern where a number followed by a dot and space starts a new item
     items = re.split(r'\s*(?=\d+\.\s)', value.strip())
-    # If there is only one part, then nothing special to do.
     if len(items) <= 1:
         return value
     html = ""
-    # If the first item does not start with a number, assume it's introductory text.
     if not re.match(r'\d+\.\s', items[0]):
         html += f"<p>{items[0]}</p>"
         items = items[1:]
@@ -44,10 +41,8 @@ def format_value(value):
     elif isinstance(value, list):
         return format_list_to_html(value)
     elif isinstance(value, str):
-        # Check if the string appears to contain a numbered list pattern.
         if re.search(r'\d+\.\s', value):
             return format_numbered_string(value)
-        # Attempt to parse the string as a literal list (if it looks like one)
         stripped = value.strip()
         if stripped.startswith('[') and stripped.endswith(']'):
             try:
@@ -66,7 +61,7 @@ def json_to_html(json_data, output_file="output/summary.html"):
     
     html_content = """
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="he" dir="rtl">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,6 +72,8 @@ def json_to_html(json_data, output_file="output/summary.html"):
                 margin: 40px; 
                 background: linear-gradient(120deg, #3a3d40, #5c5e60); 
                 color: #eee; 
+                direction: rtl;
+                text-align: right;
             }
             h2 { 
                 color: #ffffff; 
@@ -99,7 +96,8 @@ def json_to_html(json_data, output_file="output/summary.html"):
             }
             ul { 
                 list-style-type: disc; 
-                padding-left: 20px; 
+                padding-right: 20px;
+                text-align: right;
             }
             li { 
                 background: #444; 
@@ -126,7 +124,6 @@ def json_to_html(json_data, output_file="output/summary.html"):
     for key, value in json_data.items():
         html_content += f"<h2>{key}</h2>"
         formatted_value = format_value(value)
-        # If the formatted value is an HTML list, render it as is; otherwise wrap in a paragraph.
         if formatted_value.strip().startswith("<ul>"):
             html_content += formatted_value
         else:
@@ -142,5 +139,4 @@ def json_to_html(json_data, output_file="output/summary.html"):
 if __name__ == "__main__":
     with open("output/response.json", "r", encoding="utf-8") as json_file:
         data = json.load(json_file)
-
     json_to_html(data)

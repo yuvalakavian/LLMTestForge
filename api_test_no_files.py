@@ -72,6 +72,9 @@ def generate_content(
     run = openai_client.beta.threads.runs.create(
         thread_id=thread_id,
         assistant_id=assistant_id,
+        temperature=0.8,  # Controls response randomness
+        top_p=1.0,  # No restriction on probability distribution
+        max_prompt_tokens=10000,  # Ensures enough tokens are available for context
     )
 
     print("Processing...")
