@@ -1,3 +1,4 @@
+import argparse
 import json
 import ast
 import re
@@ -139,7 +140,34 @@ def json_to_html(json_data, output_file="output/summary.html"):
     
     print(f"HTML file '{output_file}' generated successfully.")
 
-if __name__ == "__main__":
-    with open("output/response.json", "r", encoding="utf-8") as json_file:
+def parse_arguments():
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(description="Convert JSON data to an HTML file.")
+    
+    parser.add_argument(
+        "--input-file", "-i",
+        required=True,
+        help="Path to the input JSON file."
+    )
+    
+    parser.add_argument(
+        "--output-file", "-o",
+        default="output/summary.html",
+        help="Path to the output HTML file (default: 'output/summary.html')."
+    )
+
+    return parser.parse_args()
+
+def main():
+    # Parse command-line arguments
+    args = parse_arguments()
+
+    # Read the input JSON file
+    with open(args.input_file, "r", encoding="utf-8") as json_file:
         data = json.load(json_file)
-    json_to_html(data)
+
+    # Convert the JSON data to HTML and save to the output file
+    json_to_html(data, output_file=args.output_file)
+
+if __name__ == "__main__":
+    main()

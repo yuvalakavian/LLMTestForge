@@ -1,3 +1,4 @@
+import argparse
 import json
 import random
 
@@ -123,14 +124,40 @@ def generate_html(data):
     
     return html_content
 
-with open("output/response.json", "r", encoding="utf-8") as json_file:
-    data = json.load(json_file)
+def parse_arguments():
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(description="Generate HTML for an exam from a JSON file.")
+    
+    parser.add_argument(
+        "--input-file", "-i",
+        required=True,
+        help="Path to the input JSON file containing the exam data."
+    )
+    
+    parser.add_argument(
+        "--output-file", "-o",
+        default="output/exam.html",
+        help="Path to the output HTML file (default: 'output/exam.html')."
+    )
 
-# Generate the HTML
-html_output = generate_html(data)
+    return parser.parse_args()
 
-# Save the output to a file
-with open('output/exam.html', 'w', encoding='utf-8') as f:
-    f.write(html_output)
+def main():
+    # Parse command-line arguments
+    args = parse_arguments()
 
-print("HTML file generated successfully: exam.html")
+    # Read the input JSON file
+    with open(args.input_file, "r", encoding="utf-8") as json_file:
+        data = json.load(json_file)
+
+    # Generate the HTML
+    html_output = generate_html(data)
+
+    # Save the output to a file
+    with open(args.output_file, 'w', encoding='utf-8') as f:
+        f.write(html_output)
+
+    print(f"HTML file generated successfully: {args.output_file}")
+
+if __name__ == "__main__":
+    main()

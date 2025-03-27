@@ -182,68 +182,45 @@ def parse_arguments():
         required=True,
         help="Specify the file type (pdf or pptx)."
     )
+    parser.add_argument(
+        "--input-file", "-i",
+        required=True,
+        help="Path to the input PDF or PPTX file."
+    )
     return parser.parse_args()
-
 
 if __name__ == "__main__":
     args = parse_arguments()
     generate_type = args.generate_type
     file_type = args.file_type
+    input_file = args.input_file
 
-    print(f"Generate type: {generate_type} | File type: {file_type}")
+    print(f"Generate type: {generate_type} | File type: {file_type} | Input file: {input_file}")
 
-    if generate_type == "test":
-        params = {
-            "num_of_american": 8,
-            "num_of_open": 3,
-        }
-        initial_prompt = get_prompt(prompt_type="test", params=params)
+    # Load the appropriate response structure JSON
+    response_structure_file = "test_json_structure.json" if generate_type == "test" else "summary_json_structure.json"
+    with open(response_structure_file, "r", encoding="utf-8") as json_file:
+        response_structure = json.load(json_file)
 
-        with open("test_json_structure.json", "r", encoding="utf-8") as json_file:
-            response_structure = json.load(json_file)
+    # Define the initial prompt parameters
+    params = {"num_of_american": 8, "num_of_open": 3} if generate_type == "test" else {}
+    initial_prompt = get_prompt(prompt_type=generate_type, params=params)
 
-        total_input = ""
-        # Choose the file extraction method based on the file type
-        if file_type == "pdf":
-            # Example: Process multiple PDF files
-            for i in range(1, 4):
-                source_path = f"input/test/{i}.pdf"
-                total_input += compress_pdf_to_text(source_path)
-        elif file_type == "pptx":
-            # Example: Process a single PPTX file
-            pptx_file = "input/example.pptx"
-            total_input += extract_text_from_pptx(pptx_file)
-                
-        result = generate_content(
-            generate_type=generate_type,
-            initial_prompt=initial_prompt,
-            response_structure=response_structure,
-            text_input=total_input,
-        )
+    # Extract text from the input file
+    if file_type == "pdf":
+        total_input = compress_pdf_to_text(input_file)
+    elif file_type == "pptx":
+        total_input = extract_text_from_pptx(input_file)
+    else:
+        print("Error: Unsupported file type.")
+        sys.exit(1)
 
-    elif generate_type == "summary":
-        params = {}
-        initial_prompt = get_prompt(prompt_type="summary", params=params)
-
-        with open("summary_json_structure.json", "r", encoding="utf-8") as json_file:
-            response_structure = json.load(json_file)
-
-        total_input = ""
-        if file_type == "pdf":
-            # Example: Process multiple PDF files for summary
-            for i in range(1, 4):
-                source_path = f"input/summary/{i}.pdf"
-                total_input += compress_pdf_to_text(source_path)
-        elif file_type == "pptx":
-            # Example: Process a single PPTX file for summary
-            pptx_file = "input/summary/example.pptx"
-            total_input += extract_text_from_pptx(pptx_file)
-
-        result = generate_content(
-            generate_type=generate_type,
-            initial_prompt=initial_prompt,
-            response_structure=response_structure,
-            text_input=total_input,
-        )
+    # Generate content
+    result = generate_content(
+        generate_type=generate_type,
+        initial_prompt=initial_prompt,
+        response_structure=response_structure,
+        text_input=total_input,
+    )
 
     print("Exit code:", result)
