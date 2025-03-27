@@ -1,75 +1,51 @@
 # LLMTestForge
 
-LLMTestForge is a lightweight testing framework designed to process structured JSON data and generate human-readable HTML summaries. The project provides utilities for handling structured data and generating summary reports.
+LLMTestForge is an advanced testing framework that leverages AI to transform documents into structured data and human-readable reports. It uses ChatGPT to parse PDF and PPTX files, extract their content, and convert the text into structured JSON format. Then, it generates HTML reports from that JSON data.
 
 ## Features
 
-- **JSON to HTML Summary Conversion**: Parses structured JSON files and generates readable HTML reports.
-- **Flexible Input Handling**: Supports multiple input files for batch processing.
+- **PDF/PPTX to JSON Conversion**: Uses ChatGPT to extract text from PDF and PPTX files, creating structured JSON data.
+- **JSON to HTML Conversion**: Generates human-readable HTML reports from the JSON data, making it easy to visualize the parsed content.
+- **Automation**: Full workflow automation through a single script for converting files and generating reports.
 
-## Project Structure
+## How It Works
 
-- `input/` – Directory containing input JSON files for processing.
-- `output/` – Directory where generated HTML summaries are stored.
-- `generate_summary_html_from_json.py` – Converts JSON data into HTML summary reports.
-- `generate_test_html_from_json.py` – Generates HTML representations of test results from JSON data.
-- `generate_json.py` – Script to generate structured JSON data.
-- `summary_json_structure.json` – Sample JSON structure for summaries.
-- `test_json_structure.json` – Sample JSON structure for test cases.
+1. **Text Extraction**: The framework processes PDF or PPTX files, extracting their text content.
+2. **AI Processing**: ChatGPT analyzes the extracted text, organizing it into a structured JSON format.
+3. **HTML Generation**: The structured JSON is then converted into a customized HTML report, either for a summary or a test result.
 
-## Getting Started
+## Workflow
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yuvalakavian/LLMTestForge.git
-   ```
+You can automate the entire process (from file conversion to report generation) using the `automate_workflow.py` script.
 
-2. **Navigate to the Project Directory**:
-   ```bash
-   cd LLMTestForge
-   ```
+### Usage
 
-3. **Install Dependencies**:
-   Ensure you have Python installed. Install required packages using pip:
-   ```bash
-   pip install -r requirements.txt
-   ```
+Run the following command to automate the entire workflow:
 
-4. **Prepare Input Data**:
-   Place your JSON files in the `input/` directory. Use the provided `summary_json_structure.json` and `test_json_structure.json` as templates for your data.
+```bash
+python automate_workflow.py --generate-type <test|summary> --file-type <pdf|pptx> --input-file <input_file_path>
+```
 
-5. **Run the Scripts**:
-   - To generate structured JSON data:
-     ```bash
-     python generate_json.py
-     ```
-   - To generate HTML summaries:
-     ```bash
-     python generate_summary_html_from_json.py
-     ```
-   - To generate test results in HTML:
-     ```bash
-     python generate_test_html_from_json.py
-     ```
-   - To generate a test or summary from PDF or PPTX files:
-     ```bash
-     python generate_json.py --generate-type <test|summary> --file-type <pdf|pptx>
-     ```
-     - `--generate-type` (`-g`): Specify whether to generate a "test" or a "summary".
-     - `--file-type` (`-f`): Specify the file type (`pdf` or `pptx`).
+- `--generate-type` (`-g`): Choose `test` for test results or `summary` for a content summary.
+- `--file-type` (`-f`): Specify the input file type (`pdf` or `pptx`).
+- `--input-file` (`-i`): Path to the input PDF or PPTX file.
 
-6. **View Output**:
-   Access the generated HTML files in the `output/` directory using your preferred web browser.
+The script generates:
+1. A JSON file in the `output/` folder.
+2. An HTML file summarizing or testing the extracted data, saved in the same folder.
+
+### Example
+
+```bash
+python automate_workflow.py -g summary -f pdf -i input/test/1.pdf
+```
+
+This command processes `1.pdf`, creates `1.json` in `output/`, and then generates `1.html` summarizing the extracted data.
 
 ## Contributing
 
-Contributions are welcome! Please fork the repository and submit a pull request with your enhancements or bug fixes.
+Contributions are welcome! Fork the repo, make your changes, and submit a pull request to enhance the framework.
 
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
-
----
-
-For more information and to access the source code, visit the [LLMTestForge GitHub repository](https://github.com/yuvalakavian/LLMTestForge).
-
