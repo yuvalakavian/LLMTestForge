@@ -206,7 +206,7 @@ if __name__ == "__main__":
                 total_input += compress_pdf_to_text(source_path)
         elif file_type == "pptx":
             # Example: Process a single PPTX file
-            pptx_file = "example.pptx"
+            pptx_file = "input/example.pptx"
             total_input += extract_text_from_pptx(pptx_file)
                 
         result = generate_content(
