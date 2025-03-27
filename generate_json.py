@@ -5,11 +5,22 @@ import fitz  # PyMuPDF
 import io
 import time
 import sys
+from pptx import Presentation
 
 def read_api_key(file_path="api_key.txt"):
     with open(file_path, "r") as f:
         return f.read().strip()
-
+    
+def extract_text_from_pptx(pptx_path):
+    prs = Presentation(pptx_path)
+    text = []
+    
+    for slide in prs.slides:
+        for shape in slide.shapes:
+            if hasattr(shape, "text"):
+                text.append(shape.text)
+    
+    return "\n".join(text)
 
 def compress_pdf_to_text(input_pdf_path):
     # Open the input PDF
@@ -34,7 +45,7 @@ def compress_pdf_to_text(input_pdf_path):
 
 
 def generate_content(
-    generate_type, source_path, initial_prompt, response_structure, text_input
+    generate_type, initial_prompt, response_structure, text_input
 ) -> int:
     # Step 1: Read API key from file
     api_key = read_api_key()
@@ -45,7 +56,7 @@ def generate_content(
     # Step 2: Create an Assistant
     assistant = openai_client.beta.assistants.create(
         name="Test/Summary Generator",
-        instructions="You are an assistant that generates tests and summary as text input in JSON format.",
+        instructions="You are an assistant that generates tests and summary as text input in JSON format. The generated response must contain at least 1,000 words in JSON format.",
         model="o3-mini",
     )
     assistant_id = assistant.id
@@ -72,6 +83,7 @@ def generate_content(
     run = openai_client.beta.threads.runs.create(
         thread_id=thread_id,
         assistant_id=assistant_id,
+        max_completion_tokens=20000,
     )
 
     print("Processing...")
@@ -124,66 +136,81 @@ def generate_content(
 
 
 def get_prompt(prompt_type, params):
+    """Generate the appropriate prompt for OpenAI based on the request type."""
     if prompt_type == "test":
-        num_of_american = params["num_of_american"]
-        num_of_open = params["num_of_open"]
-        custom_prompt = "make sure that the answers are correct and in hebrew. make the questions hard."
+        num_of_american = params.get("num_of_american", 8)
+        num_of_open = params.get("num_of_open", 3)
+        custom_prompt = "Make sure that the answers are correct and in Hebrew. Make the questions hard."
         test_prompt = f"""
-        Create a new and diffrent test for me inspired by on the material in the files,
+        Create a new and different test inspired by the material in the files,
         which will contain {num_of_american} American questions and {num_of_open} open-ended ones.
-        take this notes in consideration: {custom_prompt}
+        Notes: {custom_prompt}
         """
-
         return test_prompt
     elif prompt_type == "summary":
-        custom_prompt = "make it in hebrew"
-        summary_prompt = f"""
+        custom_prompt = "Ensure that the summary is detailed, rich in content, and written in Hebrew."
+        # Updated prompt with explicit instructions to lengthen the summary
+        summary_prompt = f"""        
         Create a summary for me based on the material in the files.
         make sure the summary is rich in content and well orginzed.
         and replace the subjects from the json with actual titles.
-        take this notes in consideration: {custom_prompt}
+        make the response as lengthy as possible, min 20 percent of actual size
+        Notes: {custom_prompt}
         """
-
         return summary_prompt
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Generate test or summary from PDFs.")
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Generate test or summary from PDF or PPTX files."
+    )
     parser.add_argument(
         "--generate-type", "-g",
         choices=["test", "summary"],
         required=True,
         help="Specify whether to generate a 'test' or a 'summary'."
     )
+    parser.add_argument(
+        "--file-type", "-f",
+        choices=["pdf", "pptx"],
+        required=True,
+        help="Specify the file type (pdf or pptx)."
+    )
     return parser.parse_args()
+
 
 if __name__ == "__main__":
     args = parse_arguments()
     generate_type = args.generate_type
-    print(generate_type)
+    file_type = args.file_type
+
+    print(f"Generate type: {generate_type} | File type: {file_type}")
 
     if generate_type == "test":
         params = {
             "num_of_american": 8,
             "num_of_open": 3,
         }
-        initial_prompt = get_prompt(
-            prompt_type="test",
-            params=params,
-        )
+        initial_prompt = get_prompt(prompt_type="test", params=params)
 
         with open("test_json_structure.json", "r", encoding="utf-8") as json_file:
             response_structure = json.load(json_file)
 
         total_input = ""
-        for i in range(1, 4):
-            source_path = f"input/test/{i}.pdf"
-            compressed_pdf = compress_pdf_to_text(source_path)
-            total_input += compressed_pdf
-
+        # Choose the file extraction method based on the file type
+        if file_type == "pdf":
+            # Example: Process multiple PDF files
+            for i in range(1, 4):
+                source_path = f"input/test/{i}.pdf"
+                total_input += compress_pdf_to_text(source_path)
+        elif file_type == "pptx":
+            # Example: Process a single PPTX file
+            pptx_file = "example.pptx"
+            total_input += extract_text_from_pptx(pptx_file)
+                
         result = generate_content(
             generate_type=generate_type,
-            source_path=source_path,
             initial_prompt=initial_prompt,
             response_structure=response_structure,
             text_input=total_input,
@@ -191,26 +218,27 @@ if __name__ == "__main__":
 
     elif generate_type == "summary":
         params = {}
-        initial_prompt = get_prompt(
-            prompt_type=generate_type,
-            params=params,
-        )
+        initial_prompt = get_prompt(prompt_type="summary", params=params)
 
         with open("summary_json_structure.json", "r", encoding="utf-8") as json_file:
             response_structure = json.load(json_file)
 
         total_input = ""
-        for i in range(1, 4):
-            source_path = f"input/summary/{i}.pdf"
-            compressed_pdf = compress_pdf_to_text(source_path)
-            total_input += compressed_pdf
+        if file_type == "pdf":
+            # Example: Process multiple PDF files for summary
+            for i in range(1, 4):
+                source_path = f"input/summary/{i}.pdf"
+                total_input += compress_pdf_to_text(source_path)
+        elif file_type == "pptx":
+            # Example: Process a single PPTX file for summary
+            pptx_file = "input/summary/example.pptx"
+            total_input += extract_text_from_pptx(pptx_file)
 
         result = generate_content(
             generate_type=generate_type,
-            source_path=source_path,
             initial_prompt=initial_prompt,
             response_structure=response_structure,
             text_input=total_input,
         )
 
-    print("exit code: ", result)
+    print("Exit code:", result)
