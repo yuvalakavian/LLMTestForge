@@ -52,11 +52,16 @@ def generate_content(
 
     # Initialize OpenAI Client
     openai_client = openai.OpenAI(api_key=api_key)
+    
+    instructions = "You are an assistant that generates tests and summary as text input in JSON format."
+    
+    if generate_type == "summary":
+        instructions+= "The generated response must contain at least 1,000 words in JSON format."
 
     # Step 2: Create an Assistant
     assistant = openai_client.beta.assistants.create(
         name="Test/Summary Generator",
-        instructions="You are an assistant that generates tests and summary as text input in JSON format. The generated response must contain at least 1,000 words in JSON format.",
+        instructions=instructions,
         model="o3-mini",
     )
     assistant_id = assistant.id
