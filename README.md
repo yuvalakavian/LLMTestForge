@@ -1,67 +1,75 @@
 # LLMTestForge
 
-**LLMTestForge** is a lightweight testing framework designed to process structured JSON data and generate human-readable HTML summaries. The project provides utilities for handling API responses, testing structured data, and generating summary reports.
+LLMTestForge is a lightweight testing framework designed to process structured JSON data and generate human-readable HTML summaries. The project provides utilities for handling structured data and generating summary reports.
 
 ## Features
 
 - **JSON to HTML Summary Conversion**: Parses structured JSON files and generates readable HTML reports.
-- **API Response Testing**: Includes scripts to test API outputs and validate expected results.
 - **Flexible Input Handling**: Supports multiple input files for batch processing.
 
 ## Project Structure
 
-- **`input/`** – Directory for input JSON files.
-- **`output/`** – Directory where generated HTML reports are stored.
-- **`api_test.py`** – Script for testing API responses.
-- **`api_test_no_files.py`** – Variation of API testing without file-based input.
-- **`generate_summary_html_from_json.py`** – Converts JSON summaries into an HTML report.
-- **`generate_test_html_from_json.py`** – Processes test result JSON files and generates an HTML report.
-- **`summary_json_structure.json`** – Example JSON structure for summary generation.
-- **`test_json_structure.json`** – Example JSON structure for test case processing.
-- **`.gitignore`** – Specifies ignored files and directories.
-- **`LICENSE`** – Project licensing information.
-- **`README.md`** – This documentation file.
+- `input/` – Directory containing input JSON files for processing.
+- `output/` – Directory where generated HTML summaries are stored.
+- `generate_summary_html_from_json.py` – Converts JSON data into HTML summary reports.
+- `generate_test_html_from_json.py` – Generates HTML representations of test results from JSON data.
+- `generate_json.py` – Script to generate structured JSON data.
+- `summary_json_structure.json` – Sample JSON structure for summaries.
+- `test_json_structure.json` – Sample JSON structure for test cases.
 
-## Installation
+## Getting Started
 
-Clone the repository and install the necessary dependencies:
-
-```bash
-git clone https://github.com/yuvalakavian/LLMTestForge.git
-cd LLMTestForge
-pip install -r requirements.txt
-```
-
-## Usage
-
-1. **Generate an HTML Summary from JSON**:
-
+1. **Clone the Repository**:
    ```bash
-   python generate_summary_html_from_json.py summary_json_structure.json
+   git clone https://github.com/yuvalakavian/LLMTestForge.git
    ```
 
-2. **Generate an HTML Test Report from JSON**:
-
+2. **Navigate to the Project Directory**:
    ```bash
-   python generate_test_html_from_json.py test_json_structure.json
+   cd LLMTestForge
    ```
 
-3. **Run API Tests**:
-
+3. **Install Dependencies**:
+   Ensure you have Python installed. Install required packages using pip:
    ```bash
-   python api_test.py
+   pip install -r requirements.txt
    ```
 
-   or without file input:
+4. **Prepare Input Data**:
+   Place your JSON files in the `input/` directory. Use the provided `summary_json_structure.json` and `test_json_structure.json` as templates for your data.
 
-   ```bash
-   python api_test_no_files.py
-   ```
+5. **Run the Scripts**:
+   - To generate structured JSON data:
+     ```bash
+     python generate_json.py
+     ```
+   - To generate HTML summaries:
+     ```bash
+     python generate_summary_html_from_json.py
+     ```
+   - To generate test results in HTML:
+     ```bash
+     python generate_test_html_from_json.py
+     ```
+   - To generate a test or summary from PDF or PPTX files:
+     ```bash
+     python generate_json.py --generate-type <test|summary> --file-type <pdf|pptx>
+     ```
+     - `--generate-type` (`-g`): Specify whether to generate a "test" or a "summary".
+     - `--file-type` (`-f`): Specify the file type (`pdf` or `pptx`).
+
+6. **View Output**:
+   Access the generated HTML files in the `output/` directory using your preferred web browser.
 
 ## Contributing
 
-Contributions are welcome! Feel free to open an issue or submit a pull request.
+Contributions are welcome! Please fork the repository and submit a pull request with your enhancements or bug fixes.
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License. See the `LICENSE` file for more details.
+
+---
+
+For more information and to access the source code, visit the [LLMTestForge GitHub repository](https://github.com/yuvalakavian/LLMTestForge).
+
