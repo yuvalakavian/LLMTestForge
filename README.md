@@ -37,10 +37,14 @@ The script generates:
 ### Example
 
 ```bash
-python automate_workflow.py -g summary -f pdf -i input/test/1.pdf
+python automate_workflow.py -g summary -f pdf -i input/test/example.pdf
 ```
 
-This command processes `1.pdf`, creates `1.json` in `output/`, and then generates `1.html` summarizing the extracted data.
+This command processes `example.pdf`, creates `example.json` in `output/`, and then generates `example.html` summarizing the extracted data.
+![image](https://github.com/user-attachments/assets/bdd872f0-0bdb-4f3d-8b25-b42318415429)
+
+
+
 
 ## Contributing
 
