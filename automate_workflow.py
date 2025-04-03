@@ -3,13 +3,17 @@ import subprocess
 import sys
 import os
 
-def run_generate_json(generate_type, file_type, input_file):
+def run_generate_json(generate_type, file_type, input_file, custom_prompt):
     """Runs generate_json.py with the specified arguments."""
+    # Build the base command
+    cmd = ['python', 'scripts/generate_json.py', '-g', generate_type, '-f', file_type, '-i', input_file]
+    
+    # If a custom prompt is provided, add it to the command
+    if custom_prompt:
+        cmd.extend(['-c', custom_prompt])
+    
     try:
-        subprocess.run(
-            ['python', 'scripts/generate_json.py', '-g', generate_type, '-f', file_type, '-i', input_file],
-            check=True
-        )
+        subprocess.run(cmd, check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error running generate_json.py: {e}")
         sys.exit(1)
@@ -58,7 +62,12 @@ def parse_arguments():
         required=True,
         help="Path to the input PDF or PPTX file."
     )
-
+    
+    parser.add_argument(
+        "--custom-prompt", "-c",
+        help="Optional custom prompt to override the default prompt instructions."
+    )
+    
     return parser.parse_args()
 
 def main():
@@ -66,14 +75,17 @@ def main():
     generate_type = args.generate_type
     file_type = args.file_type
     input_file = args.input_file
+    custom_prompt = args.custom_prompt
 
     # Generate output filenames based on input file and output folder
     output_json = "output/response.json"
     output_file = os.path.join("output", os.path.splitext(os.path.basename(input_file))[0] + ".html")
 
     print(f"Processing {input_file} as {generate_type} ({file_type})...")
+    if custom_prompt:
+        print(f"Custom prompt provided: {custom_prompt}")
     
-    run_generate_json(generate_type, file_type, input_file)
+    run_generate_json(generate_type, file_type, input_file, custom_prompt)
     
     html_script = determine_html_script(generate_type)
     
