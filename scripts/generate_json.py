@@ -140,30 +140,31 @@ def generate_content(
     return 0
 
 
-def get_prompt(prompt_type, params):
+def get_prompt(prompt_type, params, custom_prompt_arg=None):
     """Generate the appropriate prompt for OpenAI based on the request type."""
+    # If a custom prompt is provided via cmd, use it; otherwise use default.
+    if custom_prompt_arg:
+        custom_prompt = custom_prompt_arg
+    
     if prompt_type == "test":
         num_of_american = params.get("num_of_american", 8)
         num_of_open = params.get("num_of_open", 3)
-        custom_prompt = "Make sure that the answers are correct and in Hebrew. Make the questions hard."
         test_prompt = f"""
         Create a new and different test inspired by the material in the files,
         which will contain {num_of_american} American questions and {num_of_open} open-ended ones.
-        Notes: {custom_prompt}
+        Notes: Make sure that the answers are correct and in Hebrew. Make the questions hard. {custom_prompt}
         """
         return test_prompt
     elif prompt_type == "summary":
-        custom_prompt = "Ensure that the summary is detailed, rich in content, and written in Hebrew."
-        # Updated prompt with explicit instructions to lengthen the summary
+        # Updated prompt with explicit instructions to lengthen the summary.
         summary_prompt = f"""        
         Create a summary for me based on the material in the files.
-        make sure the summary is rich in content and well orginzed.
-        and replace the subjects from the json with actual titles.
-        make the response as lengthy as possible, min 20 percent of actual size
-        Notes: {custom_prompt}
+        Make sure the summary is rich in content and well organized.
+        Replace the subjects from the json with actual titles.
+        Make the response as lengthy as possible, min 20 percent of actual size.
+        Notes: Ensure that the summary is detailed, rich in content, and written in Hebrew. {custom_prompt}
         """
         return summary_prompt
-
 
 def parse_arguments():
     """Parse command-line arguments."""
@@ -187,6 +188,10 @@ def parse_arguments():
         required=True,
         help="Path to the input PDF or PPTX file."
     )
+    parser.add_argument(
+        "--custom-prompt", "-c",
+        help="Optional custom prompt to override the default prompt instructions."
+    )
     return parser.parse_args()
 
 if __name__ == "__main__":
@@ -194,8 +199,11 @@ if __name__ == "__main__":
     generate_type = args.generate_type
     file_type = args.file_type
     input_file = args.input_file
+    custom_prompt_arg = args.custom_prompt
 
     print(f"Generate type: {generate_type} | File type: {file_type} | Input file: {input_file}")
+    if custom_prompt_arg:
+        print(f"Custom prompt provided: {custom_prompt_arg}")
 
     # Load the appropriate response structure JSON
     response_structure_file = "test_json_structure.json" if generate_type == "test" else "summary_json_structure.json"
@@ -204,7 +212,7 @@ if __name__ == "__main__":
 
     # Define the initial prompt parameters
     params = {"num_of_american": 8, "num_of_open": 3} if generate_type == "test" else {}
-    initial_prompt = get_prompt(prompt_type=generate_type, params=params)
+    initial_prompt = get_prompt(prompt_type=generate_type, params=params, custom_prompt_arg=custom_prompt_arg)
 
     # Extract text from the input file
     if file_type == "pdf":
