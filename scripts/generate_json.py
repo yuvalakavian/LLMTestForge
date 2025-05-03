@@ -62,7 +62,7 @@ def generate_content(
     assistant = openai_client.beta.assistants.create(
         name="Test/Summary Generator",
         instructions=instructions,
-        model="o3-mini",
+        model="gpt-4o-mini",
     )
     assistant_id = assistant.id
 
